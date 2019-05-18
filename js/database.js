@@ -43,3 +43,11 @@ batch = [
         bname : 'Batch 2'
     }
 ];
+
+register = [
+    {
+        sid:'S001',
+        cid:'C001',
+        bid:'B001'
+    }
+];

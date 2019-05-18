@@ -34,6 +34,7 @@ $(window).on('load', function () {
         });
     }
     findBatch($('#cmbBatch').val());
+    loadTable();
 });
 
 function findName(sid){
@@ -64,5 +65,103 @@ function findBatch(bid){
 }
 
 $('#btnRegister').click(function () {
-    console.log("Add New Register");
+
+    var bool = validation();
+
+    if(!bool){
+        alert("Tis student already register for this batch");
+        return;
+    }
+    var stid = $('#cmbStudentid').val();
+    var csid = $('#cmbCourse').val();
+    var btid = $('#cmbBatch').val();
+
+    register.push(
+        {
+            sid:stid,
+            cid:csid,
+            bid:btid
+        }
+    );
+
+    loadTable();
 });
+
+function validation(){
+    var studentId = $('#cmbStudentid').val();
+    var batchId = $('#cmbBatch').val();
+
+    for (var i=0; i<register.length; i++){
+        if(studentId  == register[i].sid){
+            if(batchId == register[i].bid){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function loadTable(){
+    console.log("Came to Load table");
+    $('#tblStudent tbody tr').remove();
+
+    for(var i=0; i<register.length; i++){
+        var sname = "";
+        for(var j=0; j<student.length; j++){
+            if(register[i].sid == student[j].sid){
+                sname = student[j].sname;
+            }
+        }
+
+        var cname = "";
+        for(var j=0; j<course.length; j++){
+            if(register[i].cid == course[j].cid){
+                cname = course[j].cname;
+            }
+        }
+
+        var bname = "";
+        for(var j=0; j<batch.length; j++){
+            if(register[i].bid == batch[j].bid){
+                bname = batch[j].bname;
+            }
+        }
+
+        $('#tblStudent tbody').append(
+            '<tr>' +
+            '<td>'+ register[i].sid+'</td>' +
+            '<td>'+ sname+'</td>' +
+            '<td>'+ register[i].cid+'</td>' +
+            '<td>'+ cname+'</td>' +
+            '<td>'+ register[i].bid+'</td>' +
+            '<td>'+ bname+'</td>' +
+            '<td><i class="fas fa-trash"></i></td>' +
+            '</tr>'
+        );
+        
+        $('#tblStudent tbody').children('tr').last().find('i').click(function () {
+            console.log('came to delete');
+            setInterval(deleteRegister($(this)),4000);
+        });
+    }
+}
+
+function deleteRegister(id){
+    console.log('came to fade out');
+    var sid = $(id.parents('tr').children('td')[0]).text();
+    var cid = $(id.parents('tr').children('td')[2]).text();
+    var bid = $(id.parents('tr').children('td')[4]).text();
+
+    console.log(sid);
+    console.log(cid);
+    console.log(bid);
+
+    id.parents('tr').fadeOut('slow', function () {
+        $(this).parents('tr').remove();
+        for(var j=0; j<register.length; j++){
+            if((sid  == register[j].sid) && (cid == register[j].cid) && (bid == register[j].bid)){
+                register.splice(j,1);
+            }
+        }
+    })
+}

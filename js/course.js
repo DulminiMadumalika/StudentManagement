@@ -31,6 +31,7 @@ function Courses() {
 }
 
 function DeleteCourse() {
+    
     $("#tblCourse tbody i").click(function () {
         if (confirm("Are you sure to delete this customer?")) {
             var row = $(this).parents("tr");

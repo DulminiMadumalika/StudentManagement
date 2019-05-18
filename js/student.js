@@ -1,15 +1,6 @@
 $(window).on('load', function () {
-    for(var i=0; i<student.length; i++){
-        $('#cmbStudentid').append(
-            '<option>'+ student[i].sid +'</option>'
-        );
 
-        $('#cmbStudentid').change(function () {
-            var sid = $('#cmbStudentid option:selected').text();
-            findName(sid);
-        });
-    }
-    findName($('#cmbStudentid').val());
+    loadStudent();
 
     for(var i=0; i<course.length; i++){
         $('#cmbCourse').append(
@@ -36,6 +27,22 @@ $(window).on('load', function () {
     findBatch($('#cmbBatch').val());
     loadTable();
 });
+
+function loadStudent() {
+    $('#cmbStudentid option').remove();
+
+    for(var i=0; i<student.length; i++){
+        $('#cmbStudentid').append(
+            '<option>'+ student[i].sid +'</option>'
+        );
+
+        $('#cmbStudentid').change(function () {
+            var sid = $('#cmbStudentid option:selected').text();
+            findName(sid);
+        });
+    }
+    findName($('#cmbStudentid').val());
+}
 
 function findName(sid){
     for(var i=0; i<student.length; i++){
@@ -102,7 +109,7 @@ function validation(){
 }
 
 function loadTable(){
-    console.log("Came to Load table");
+
     $('#tblStudent tbody tr').remove();
 
     for(var i=0; i<register.length; i++){
@@ -147,7 +154,7 @@ function loadTable(){
 }
 
 function deleteRegister(id){
-    console.log('came to fade out');
+
     var sid = $(id.parents('tr').children('td')[0]).text();
     var cid = $(id.parents('tr').children('td')[2]).text();
     var bid = $(id.parents('tr').children('td')[4]).text();
@@ -165,3 +172,69 @@ function deleteRegister(id){
         }
     })
 }
+
+$('#btnAddNew').click(function () {
+    generateId();
+});
+
+function generateId(){
+    var sid = parseInt(student[student.length-1].sid.substr(1))+1;
+    var pre = "S";
+    if(sid.toString().length == 1){
+        pre = "S00";
+    }else if(sid.toString().length == 2){
+        pre = "S0";
+    }
+    $('#txtStudentid').val(pre+sid);
+}
+
+$('#btnSave').click(function () {
+
+    if($('#txtStudentid').val().trim().length ==0){
+        alert("Please Enter Student ID");
+        $('#txtStudentid').focus();
+        return;
+    }
+
+    if($('#txtAddStudent').val().trim().length ==0){
+        alert("Please Enter Student Name");
+        $('#txtAddStudent').focus();
+        return;
+    }
+
+    if($('#txtStudentContact').val().trim().length ==0){
+        alert("Please Enter Student Contact");
+        $('#txtStudentContact').focus();
+        return;
+    }
+
+    if($('#txtStudentContact').val().trim().length >0){
+        var regEx = /^\d{10}$/;
+        var bool = regEx.test($('#txtStudentContact').val());
+        if(!bool){
+            alert("Please Enter Valid Contact");
+            $('#txtStudentContact').focus();
+            return;
+        }
+    }
+
+    var sid = $('#txtStudentid').val();
+    var sname = $('#txtAddStudent').val();
+    var scon = $('#txtStudentContact').val();
+
+    student.push(
+        {
+            sid: sid,
+            sname: sname,
+            scontact : scon
+        }
+    );
+
+    $('#txtStudentid').val("");
+    $('#txtAddStudent').val("");
+    $('#txtStudentContact').val("");
+
+    loadStudent();
+    $('#exampleModalCenter').attr('aria-hidden',false);
+
+});

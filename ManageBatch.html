@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
     <title>Student Management System</title>
 
@@ -76,29 +77,29 @@
             <form>
                 <div class="form-group" style="width: 30%">
                     <label>Select course</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>1</option>
-                        <option>2</option>
+                    <select class="form-control" id="cmbCourseID">
+                        <!--<option>1</option>-->
+                        <!--<option>2</option>-->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Course Name</label>
-                    <input type="text" class="form-control" id="txtCourseName">
+                    <lable class="form-control" id="lblCourseName"></lable>
                 </div>
                 <div class="form-group">
                     <label>Batch ID</label>
-                    <input type="text" class="form-control" placeholder=" Enter Batch ID">
+                    <input type="text" class="form-control" placeholder=" Enter Batch ID" id="txtBatchId">
                 </div>
                 <div class="form-group">
                     <label>Batch Name</label>
-                    <input type="text" class="form-control" placeholder=" Enter Batch Name">
+                    <input type="text" class="form-control" placeholder=" Enter Batch Name" id="txtBatchName">
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
 
+            </form>
+            <button class="btn btn-primary" id="btnSave">Save</button>
             <h2>Batch Details</h2>
             <div class="table-responsive">
-                <table class="table table-striped table-sm">
+                <table class="table table-striped table-sm" id="tblCourse">
                     <thead>
                     <tr>
                         <th>Student ID</th>
@@ -117,5 +118,8 @@
         </main>
     </div>
 </div>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/database.js"></script>
+<script src="js/course.js"></script>
 </body>
 </html>
